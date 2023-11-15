@@ -1,49 +1,36 @@
-import Head from 'next/head';
-import React from 'react'
-
 export const getStaticPaths = async () => {
-  const res = await fetch('https://jsonplaceholder.typicode.com/users');
-  const data  = await res.json();
+    const res = await fetch("http://jsonplaceholder.typicode.com/users");
+    const data = await res.json();
 
-  const paths = data.map((coder) => {
+    const paths = data.map((coder) => {
+        return {
+            params: {id: coder.id.toString()},
+        }
+    });
+
     return {
-      params: { id: coder.id.toString() },
-    };
-  });
-
-  return {
-    paths,
-    fallback: false
-  };
+        paths,
+        fallback: false
+    }
 }
-
 export const getStaticProps = async (context) => {
-  const id = context.params.id;
+    const id =  context.params.id;
+    const res = await fetch("http://jsonplaceholder.typicode.com/users/" + id);
+    const data = await res.json();
 
-  const res = await fetch('https://jsonplaceholder.typicode.com/users/' + id);
-  const data  = await res.json();
-
-  return {
-    props: {
-      coder: data
-    },
-  };
+    return {
+        props: {coder: data},
+    }
 }
-
 export default function Detail({coder}) {
-  return (
-    <>
-    <Head>
-        <title>Coder Wikipedia | {coder.name}</title>
-        <meta name='keywords' content='coders' />
-      </Head>
-    <div>
+    return (
+        <>
         <h1>{coder.name}</h1>
-        <p>Email: {coder.email}</p>
-        <p>Website: {coder.website}</p>
-        <p>Address: {coder.address.city}</p>
-        <p>Company: {coder.company.name}</p>
-    </div>
-    </>
-  )
+        <p>{coder.name}</p>
+        <p>{coder.name}</p>
+        <p>{coder.name}</p>
+        <p>{coder.name}</p>
+        <p>{coder.name}</p>
+        </>
+    )
 }
